@@ -12,18 +12,18 @@ import (
 )
 
 type Item struct {
-	ID                    string           `json:"id"`
-	Title                 string           `json:"title"`
-	Version               int              `json:"version"`
-	Vault                 ItemVault        `json:"vault"`
-	Category              string           `json:"category"`
-	LastEditedBy          string           `json:"last_edited_by"`
-	CreatedAt             time.Time        `json:"created_at"`
-	UpdatedAt             time.Time        `json:"updated_at"`
-	AdditionalInformation string           `json:"additional_information"`
-	Urls                  []ItemUrl        `json:"urls"`
-	Sections              []ItemSection    `json:"sections"`
-	Fields                []map[string]any `json:"fields"`
+	ID                    string        `json:"id"`
+	Title                 string        `json:"title"`
+	Version               int           `json:"version"`
+	Vault                 ItemVault     `json:"vault"`
+	Category              string        `json:"category"`
+	LastEditedBy          string        `json:"last_edited_by"`
+	CreatedAt             time.Time     `json:"created_at"`
+	UpdatedAt             time.Time     `json:"updated_at"`
+	AdditionalInformation string        `json:"additional_information"`
+	Urls                  []ItemUrl     `json:"urls"`
+	Sections              []ItemSection `json:"sections"`
+	Fields                []ItemField   `json:"fields"`
 }
 
 type ItemVault struct {
@@ -38,7 +38,16 @@ type ItemUrl struct {
 
 type ItemSection struct {
 	ID    string `json:"id"`
-	Label string `json:"label,omitempty"`
+	Label string `json:"label"`
+}
+
+type ItemField struct {
+	ID    string  `json:"id"`
+	Type  string  `json:"type"`
+	Label *string `json:"label"`
+	Value *string `json:"value"`
+	TOTP  string  `json:"totp"`
+	// Omit other fields
 }
 
 type OutputItem struct {
@@ -94,10 +103,10 @@ func format(item *Item) *OutputItem {
 	for _, f := range item.Fields {
 		var label string
 
-		if _, ok := f["label"]; ok {
-			label = f["label"].(string)
+		if f.Label != nil {
+			label = *f.Label
 		} else {
-			label = f["id"].(string)
+			label = f.ID
 		}
 
 		labelLen := runewidth.StringWidth(label)
@@ -110,21 +119,17 @@ func format(item *Item) *OutputItem {
 			Label: label,
 		}
 
-		itemType := f["type"].(string)
-
-		if itemType == "OTP" {
-			field.Value = mask.Sprint(f["totp"].(string))
+		if f.Type == "OTP" {
+			field.Value = mask.Sprint(f.TOTP)
 		} else {
-			v, ok := f["value"]
-
-			if !ok {
+			if f.Value == nil {
 				continue
 			}
 
-			if itemType == "CONCEALED" {
-				field.Value = mask.Sprint(v.(string))
+			if f.Type == "CONCEALED" {
+				field.Value = mask.Sprint(*f.Value)
 			} else {
-				field.Value = v.(string)
+				field.Value = *f.Value
 			}
 		}
 
