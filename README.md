@@ -9,7 +9,7 @@ cf. https://developer.1password.com/docs/cli/get-started/
 ## Installation
 
 ```sh
-brew install winebarrel/opmask/opmask
+brew install winebarrel/opmsk/opmsk
 ```
 
 ## Usage
