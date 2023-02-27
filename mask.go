@@ -92,7 +92,14 @@ func format(item *Item) *OutputItem {
 	maxLabelLen := 0
 
 	for _, f := range item.Fields {
-		label := f["label"].(string)
+		var label string
+
+		if _, ok := f["label"]; ok {
+			label = f["label"].(string)
+		} else {
+			label = f["id"].(string)
+		}
+
 		labelLen := runewidth.StringWidth(label)
 
 		if labelLen > maxLabelLen {
