@@ -114,8 +114,6 @@ func format(item *Item) *OutputItem {
 
 		if itemType == "OTP" {
 			field.Value = mask.Sprint(f["totp"].(string))
-		} else if itemType == "CONCEALED" {
-			field.Value = mask.Sprint(f["value"].(string))
 		} else {
 			v, ok := f["value"]
 
@@ -123,7 +121,11 @@ func format(item *Item) *OutputItem {
 				continue
 			}
 
-			field.Value = v.(string)
+			if itemType == "CONCEALED" {
+				field.Value = mask.Sprint(v.(string))
+			} else {
+				field.Value = v.(string)
+			}
 		}
 
 		outputItem.Fields = append(outputItem.Fields, field)

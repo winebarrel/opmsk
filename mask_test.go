@@ -264,3 +264,99 @@ Urls:
 
 	assert.Equal(strings.TrimPrefix(expected, "\n"), buf.String())
 }
+
+func TestMask_WithoutValue(t *testing.T) {
+	assert := assert.New(t)
+
+	lines := `
+	{
+		"id": "id",
+		"title": "title",
+		"version": 1,
+		"vault": {
+			"id": "id",
+			"name": "name"
+		},
+		"category": "LOGIN",
+		"last_edited_by": "2020-10-10T01:02:03Z",
+		"created_at": "2020-10-10T01:02:03Z",
+		"updated_at": "2020-10-10T01:02:03Z",
+		"additional_information": "additional_information",
+		"urls": [
+			{
+				"primary": true,
+				"href": "http://example.com"
+			}
+		],
+		"sections": [
+			{
+				"id": "id"
+			},
+			{
+				"id": "id",
+				"label": "label"
+			}
+		],
+		"fields": [
+			{
+				"id": "username",
+				"type": "STRING",
+				"purpose": "USERNAME",
+				"label": "my-username",
+				"value": "scott",
+				"reference": "reference"
+			},
+			{
+				"id": "password",
+				"type": "CONCEALED",
+				"purpose": "PASSWORD",
+				"label": "my-password"
+			},
+			{
+				"id": "id",
+				"section": {
+					"id": "id"
+				},
+				"type": "OTP",
+				"label": "my-otp",
+				"totp": "1234",
+				"reference": "reference"
+			},
+			{
+				"id": "id",
+				"section": {
+					"id": "id"
+				},
+				"type": "CONCEALED",
+				"label": "my-password2",
+				"value": "my-password2-value",
+				"reference": "dafy codes"
+			}
+		]
+	}
+	`
+
+	reader := strings.NewReader(lines)
+	var buf bytes.Buffer
+	err := opmsk.Mask(reader, &buf)
+	assert.NoError(err)
+	mask := color.New(color.FgWhite, color.BgWhite)
+
+	expected := fmt.Sprintf(`
+ID:          id
+Title:       title
+Vault:       name
+Category:    LOGIN
+Fields:
+  my-username:     scott
+  my-otp:          %s
+  my-password2:    %s
+Urls:
+  - http://example.com
+`,
+		mask.Sprint("1234"),
+		mask.Sprint("my-password2-value"),
+	)
+
+	assert.Equal(strings.TrimPrefix(expected, "\n"), buf.String())
+}
