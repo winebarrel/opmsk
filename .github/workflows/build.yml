@@ -1,0 +1,24 @@
+name: build
+on:
+  pull_request:
+    paths-ignore:
+      - .github/dependabot.yml
+      - LICENSE
+      - README.md
+  push:
+    paths-ignore:
+      - .github/dependabot.yml
+      - LICENSE
+      - README.md
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-go@v3
+        with:
+          go-version: ">=1.20.0"
+      - uses: golangci/golangci-lint-action@v3
+        with:
+          args: -E misspell
+      - run: make

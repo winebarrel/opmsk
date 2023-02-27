@@ -1,0 +1,33 @@
+before:
+  hooks:
+    - go mod tidy
+builds:
+  - main: ./cmd/opmsk
+    ldflags:
+      - -X main.version={{.Version}}
+    env:
+      - CGO_ENABLED=0
+    goos:
+      - linux
+      - darwin
+checksum:
+  name_template: "checksums.txt"
+brews:
+  - tap:
+      owner: winebarrel
+      name: homebrew-opmsk
+    homepage: https://github.com/winebarrel/opmsk
+    description: Mask 1Password CLI password using ANSI color.
+    license: MIT
+    install: |
+      bin.install 'opmsk'
+nfpms:
+  - file_name_template: "{{ .ProjectName }}_{{ .Version }}_{{ .Arch }}"
+    homepage: https://github.com/winebarrel/opmsk
+    maintainer: Genki Sugawara <sugawara@winebarrel.jp>
+    description: Mask 1Password CLI password using ANSI color.
+    license: MIT
+    formats:
+      - deb
+      - rpm
+    bindir: /usr/bin
