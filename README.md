@@ -18,9 +18,8 @@ brew install winebarrel/opmsk/opmsk
 op item get <item> --format json | opmsk
 ```
 
-![221649867-8b035c54-3de8-4a60-94e1-e2e3f20ce9a3](https://user-images.githubusercontent.com/117768/221654762-23f63304-5182-4c60-8ca0-b66f2c38721e.png)
-
+![](https://user-images.githubusercontent.com/117768/221726898-d0a2f733-c856-4207-8e99-f453e99a3368.png)
 
 Masked values are displayed when selected with the mouse.
 
-![](https://user-images.githubusercontent.com/117768/221647712-5084642d-5fcb-4286-9c6d-b5ac2871e08c.png)
+![](https://user-images.githubusercontent.com/117768/221726922-6de065ad-33bd-4782-b9d5-d1bdccddc8f3.png)
