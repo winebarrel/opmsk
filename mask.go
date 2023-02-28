@@ -141,7 +141,8 @@ func format(item *Item) *OutputItem {
 		outputItem.Fields[i].Offset = offset
 
 		if strings.Contains(f.Value, "\n") {
-			outputItem.Fields[i].Value = strings.ReplaceAll(f.Value, "\n", "\n"+strings.Repeat(" ", maxLabelLen+3)+offset)
+			indentValue := strings.ReplaceAll(f.Value, "\n", "\n"+strings.Repeat(" ", maxLabelLen+7))
+			outputItem.Fields[i].Value = indentValue
 		}
 	}
 

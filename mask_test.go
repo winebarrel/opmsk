@@ -176,8 +176,8 @@ Category:    PASSWORD
 Fields:
   my-password:    %s
   notesPlain:     -----BEGIN PGP PRIVATE KEY BLOCK-----
-                   ...
-                   -----END PGP PRIVATE KEY BLOCK-----
+                  ...
+                  -----END PGP PRIVATE KEY BLOCK-----
 `,
 		mask.Sprint("my-password-value"),
 	)
