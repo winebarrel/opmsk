@@ -14,6 +14,7 @@ import (
 type Item struct {
 	ID                    string        `json:"id"`
 	Title                 string        `json:"title"`
+	Tags                  []string      `json:"tags"`
 	Version               int           `json:"version"`
 	Vault                 ItemVault     `json:"vault"`
 	Category              string        `json:"category"`
@@ -54,6 +55,7 @@ type OutputItem struct {
 	ID       string
 	Title    string
 	Vault    string
+	Tags     string
 	Category string
 	Fields   []OutputItemField
 	Urls     []string
@@ -92,6 +94,7 @@ func format(item *Item) *OutputItem {
 		ID:       item.ID,
 		Title:    item.Title,
 		Vault:    item.Vault.Name,
+		Tags:     strings.Join(item.Tags, ","),
 		Category: item.Category,
 		Fields:   []OutputItemField{},
 		Urls:     []string{},
@@ -157,6 +160,9 @@ const outputTemplate = `
 ID:          {{ .ID }}
 Title:       {{ .Title }}
 Vault:       {{ .Vault }}
+{{- if .Tags }}
+Tags:        {{ .Tags }}
+{{- end }}
 Category:    {{ .Category }}
 {{- if ne (len .Fields) 0 }}
 Fields:
