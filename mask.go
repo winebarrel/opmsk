@@ -171,7 +171,7 @@ Fields:
 {{- end }}
 {{- end }}
 {{- if ne (len .Urls) 0 }}
-Urls:
+URLs:
 {{- range .Urls }}
   {{ printf "- %s" . }}
 {{- end }}

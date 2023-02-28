@@ -107,7 +107,7 @@ Fields:
   my-password:     %s
   my-otp:          %s
   my-password2:    %s
-Urls:
+URLs:
   - http://example.com
 `,
 		mask.Sprint("tiger"),
@@ -193,7 +193,7 @@ Category:    LOGIN
 Fields:
   my-username:    scott
   my-password:    %s
-Urls:
+URLs:
   - http://example.com
 `,
 		mask.Sprint("tiger"),
@@ -340,7 +340,7 @@ Category:    LOGIN
 Fields:
   username:    scott
   password:    %s
-Urls:
+URLs:
   - http://example.com
 `,
 		mask.Sprint("tiger"),
@@ -435,7 +435,7 @@ Fields:
   my-username:     scott
   my-otp:          %s
   my-password2:    %s
-Urls:
+URLs:
   - http://example.com
 `,
 		mask.Sprint("1234"),
