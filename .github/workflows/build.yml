@@ -1,17 +1,18 @@
 name: build
 on:
   pull_request:
-    paths-ignore:
-      - .github/dependabot.yml
-      - LICENSE
-      - README.md
   push:
     branches:
       - main
-    paths-ignore:
-      - .github/dependabot.yml
-      - LICENSE
-      - README.md
+
+defaults:
+  run:
+    shell: bash -xe {0}
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   test:
     runs-on: ubuntu-latest
