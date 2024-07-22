@@ -4,7 +4,7 @@ go 1.19
 
 require (
 	github.com/fatih/color v1.17.0
-	github.com/mattn/go-runewidth v0.0.15
+	github.com/mattn/go-runewidth v0.0.16
 )
 
 require (
