@@ -13,4 +13,4 @@ test:
 	go test -v ./...
 
 lint:
-	golangci-lint run -E misspell
+	golangci-lint run
